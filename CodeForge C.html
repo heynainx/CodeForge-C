@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CodeForge C</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#0A0A0A;--card:#111;--bd:#1A1A1A;--tx:#EDEDED;--mut:#8A8A8A;--g:#00FF88;--p:#7C3AED;--gl:rgba(255,255,255,.05);color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme=light]{--bg:#F6F6F4;--card:#fff;--bd:#E2E2DE;--tx:#141414;--mut:#666;--g:#00A85A;--gl:rgba(0,0,0,.04);color-scheme:light}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+h1,h2,h3,.logo{font-family:'Space Grotesk',system-ui,sans-serif;margin:0;letter-spacing:-.02em}
+code,pre,textarea,.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;display:flex;align-items:center;gap:8px;padding:10px 16px;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd)}
+.logo{font-weight:700;font-size:18px;margin-right:auto}.logo b{color:var(--g)}
+nav{display:flex;gap:4px}
+button{font:inherit;color:inherit;cursor:pointer}
+.nv,.ic{background:none;border:1px solid transparent;border-radius:8px;padding:6px 12px;color:var(--mut)}
+.nv.on{color:var(--tx);border-color:var(--bd);background:var(--gl)}
+.btn{background:var(--g);color:#001a0d;border:0;border-radius:10px;padding:10px 18px;font-weight:600}
+.btn.o{background:none;color:var(--tx);border:1px solid var(--bd)}
+:focus-visible{outline:2px solid var(--g);outline-offset:2px}
+main{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+.hero{display:grid;gap:28px;padding:32px 0 16px}
+.hero h1{font-size:clamp(36px,8vw,68px);line-height:1.02}
+.hero p{color:var(--mut);max-width:48ch;margin:16px 0 22px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.win{background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;box-shadow:0 0 60px -20px var(--p)}
+.win .bar{display:flex;gap:6px;padding:10px 12px;border-bottom:1px solid var(--bd)}.win .bar i{width:10px;height:10px;border-radius:50%;background:var(--bd)}
+.win pre{margin:0;padding:14px;font-size:13px;line-height:1.5;overflow-x:auto;min-height:150px}
+.win .o{color:var(--g)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:28px 0}
+.st{background:var(--gl);border:1px solid var(--bd);border-radius:12px;padding:14px;backdrop-filter:blur(12px)}
+.st b{font:700 26px 'Space Grotesk';display:block}.st span{color:var(--mut);font-size:14px}
+.road{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.road div{border-left:3px solid var(--p);padding:4px 12px}.road div:nth-child(3){border-color:var(--g)}
+.road b{font-family:'Space Grotesk'}.road span{display:block;color:var(--mut);font-size:14px}
+h2{font-size:26px;margin:36px 0 12px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+input,select,textarea{background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;font:inherit}
+input[type=search]{flex:1;min-width:180px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{text-align:left;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px;transition:transform .15s,border-color .15s}
+.card:hover{transform:translateY(-3px);border-color:var(--p)}
+.card h3{font-size:16px}.card pre{margin:0;font-size:11px;color:var(--g);background:var(--bg);border-radius:8px;padding:8px;overflow:hidden;max-height:64px}
+.meta{display:flex;gap:6px;align-items:center;color:var(--mut);font-size:12px}
+.tag{border:1px solid var(--bd);border-radius:99px;padding:1px 8px}
+.tag.Basic{color:var(--g)}.tag.Intermediate{color:#60A5FA}.tag.Advanced{color:#C084FC}
+.ov{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);overflow-y:auto;padding:max(16px,env(safe-area-inset-top,0px)) 12px 24px}
+.md{max-width:900px;margin:0 auto;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;display:grid;gap:12px}
+.two{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:760px){.two{grid-template-columns:1.3fr 1fr}.hero{grid-template-columns:1fr 1fr;align-items:center}}
+textarea{width:100%;min-height:260px;font-size:12.5px;line-height:1.5;resize:vertical;tab-size:2;white-space:pre}
+#out{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:12px;min-height:90px;margin:0;font-size:13px;white-space:pre-wrap;color:var(--g)}
+.opt{display:block;width:100%;text-align:left;background:var(--gl);border:1px solid var(--bd);border-radius:10px;padding:12px;margin:8px 0}
+.opt.ok{border-color:var(--g);background:rgba(0,255,136,.12)}.opt.no{border-color:#F43F5E;background:rgba(244,63,94,.12)}
+.pb{height:8px;background:var(--bd);border-radius:9px;overflow:hidden}.pb i{display:block;height:100%;background:linear-gradient(90deg,var(--p),var(--g))}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--g);color:#001a0d;padding:8px 16px;border-radius:99px;z-index:30;font-weight:600}
+.note{color:var(--mut);font-size:13px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <span class="logo">CodeForge <b>C</b></span>
+  <nav><button class="nv" data-v="home">Home</button><button class="nv" data-v="library">Library</button><button class="nv" data-v="quiz">Quiz</button></nav>
+  <button class="ic" id="th" aria-label="Toggle theme">◐</button>
+</header>
+<main id="app"></main>
+<div id="modal"></div>
+<script>
+const $=(s,r=document)=>r.querySelector(s);
+const ls={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const toast=m=>{const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),1600)};
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+/* ---------- Program generator (500) ---------- */
+const rows=(n,f)=>Array.from({length:n},(_,k)=>f(k+1)).join('\n');
+const rg=(a,b)=>Array.from({length:b-a+1},(_,k)=>a+k);
+const sp=' '.repeat.bind(' ');
+const PAT=[
+['Right Triangle','Basic',n=>rows(n,i=>'*'.repeat(i)),'for(i=1;i<=n;i++){\n    for(j=1;j<=i;j++) printf("*"); // row i prints i stars\n    printf("\\n");\n  }'],
+['Inverted Triangle','Basic',n=>rows(n,i=>'*'.repeat(n-i+1)),'for(i=n;i>=1;i--){\n    for(j=1;j<=i;j++) printf("*"); // fewer stars each row\n    printf("\\n");\n  }'],
+['Solid Square','Basic',n=>rows(n,()=>'*'.repeat(n)),'for(i=1;i<=n;i++){\n    for(j=1;j<=n;j++) printf("*"); // n stars per row\n    printf("\\n");\n  }'],
+['Pyramid','Intermediate',n=>rows(n,i=>sp(n-i)+'*'.repeat(2*i-1)),'for(i=1;i<=n;i++){\n    for(j=1;j<=n-i;j++) printf(" "); // leading spaces = n-i\n    for(j=1;j<=2*i-1;j++) printf("*"); // stars = 2i-1\n    printf("\\n");\n  }'],
+['Inverted Pyramid','Intermediate',n=>rows(n,k=>{const i=n-k+1;return sp(n-i)+'*'.repeat(2*i-1)}),'for(i=n;i>=1;i--){\n    for(j=1;j<=n-i;j++) printf(" "); // spaces grow\n    for(j=1;j<=2*i-1;j++) printf("*"); // stars shrink\n    printf("\\n");\n  }'],
+['Hollow Square','Intermediate',n=>rows(n,i=>i==1||i==n?'*'.repeat(n):'*'+sp(n-2)+'*'),'for(i=1;i<=n;i++){\n    for(j=1;j<=n;j++){\n      if(i==1||i==n||j==1||j==n) printf("*"); // border only\n      else printf(" ");\n    }\n    printf("\\n");\n  }'],
+['Number Triangle','Basic',n=>rows(n,i=>rg(1,i).join(' ')+' '),'for(i=1;i<=n;i++){\n    for(j=1;j<=i;j++) printf("%d ", j); // count 1..i\n    printf("\\n");\n  }'],
+['Repeated Number Rows','Basic',n=>rows(n,i=>(i+' ').repeat(i)),'for(i=1;i<=n;i++){\n    for(j=1;j<=i;j++) printf("%d ", i); // print row number i times\n    printf("\\n");\n  }'],
+['Floyd’s Triangle','Intermediate',(n,c=1)=>rows(n,i=>rg(1,i).map(()=>c++).join(' ')+' '),'int c=1;\n  for(i=1;i<=n;i++){\n    for(j=1;j<=i;j++) printf("%d ", c++); // keep counting\n    printf("\\n");\n  }'],
+['Alphabet Triangle','Intermediate',n=>rows(n,i=>rg(1,i).map(j=>String.fromCharCode(64+j)).join(' ')+' '),'for(i=1;i<=n;i++){\n    for(j=1;j<=i;j++) printf("%c ", \'A\'+j-1); // letters from A\n    printf("\\n");\n  }'],
+['Number Pyramid','Advanced',n=>rows(n,i=>sp(n-i)+String(i%10).repeat(2*i-1)),'for(i=1;i<=n;i++){\n    for(j=1;j<=n-i;j++) printf(" ");\n    for(j=1;j<=2*i-1;j++) printf("%d", i%10); // last digit of i\n    printf("\\n");\n  }'],
+['Diamond','Advanced',n=>rows(n,i=>sp(n-i)+'*'.repeat(2*i-1))+'\n'+rows(n-1,k=>{const i=n-k;return sp(n-i)+'*'.repeat(2*i-1)}),'for(i=1;i<=n;i++){ // top half\n    for(j=1;j<=n-i;j++) printf(" ");\n    for(j=1;j<=2*i-1;j++) printf("*");\n    printf("\\n");\n  }\n  for(i=n-1;i>=1;i--){ // bottom half\n    for(j=1;j<=n-i;j++) printf(" ");\n    for(j=1;j<=2*i-1;j++) printf("*");\n    printf("\\n");\n  }']
+];
+const wrap=(body,decl='int i,j,n')=>`#include <stdio.h>\n\nint main(){\n  ${decl};\n  ${body}\n  return 0;\n}\n`;
+const fact=v=>{let r=1n;for(let i=2n;i<=BigInt(v);i++)r*=i;return r};
+const isP=v=>{if(v<2)return false;for(let i=2;i*i<=v;i++)if(v%i==0)return false;return true};
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const MATH=[
+['Factorial','Recursion','Intermediate','O(n)',rg(3,20),v=>`#include <stdio.h>\n\nunsigned long long f(int n){\n  return n<=1 ? 1 : n*f(n-1); // function calls itself\n}\n\nint main(){\n  printf("%d! = %llu\\n", ${v}, f(${v}));\n  return 0;\n}\n`,v=>`${v}! = ${fact(v)}\n`],
+['Fibonacci Series','Algorithm','Basic','O(n)',rg(5,29),v=>`#include <stdio.h>\n\nint main(){\n  long long a=0,b=1,t;\n  int i,n=${v};\n  for(i=0;i<n;i++){\n    printf("%lld ", a); // print current term\n    t=a+b; a=b; b=t;  // slide window\n  }\n  printf("\\n");\n  return 0;\n}\n`,v=>{let a=0,b=1,o=[];for(let i=0;i<v;i++){o.push(a);[a,b]=[b,a+b]}return o.join(' ')+' \n'}],
+['Prime Check','Algorithm','Intermediate','O(√n)',rg(11,70),v=>`#include <stdio.h>\n\nint main(){\n  int n=${v}, i, prime=1;\n  for(i=2;i*i<=n;i++)  // test divisors up to √n\n    if(n%i==0){ prime=0; break; }\n  printf("%d is %s\\n", n, prime?"prime":"not prime");\n  return 0;\n}\n`,v=>`${v} is ${isP(v)?'prime':'not prime'}\n`],
+['Sum of Digits','Algorithm','Basic','O(log n)',rg(1234,1283),v=>`#include <stdio.h>\n\nint main(){\n  int n=${v}, s=0;\n  while(n>0){\n    s+=n%10; // last digit\n    n/=10;   // drop it\n  }\n  printf("Sum = %d\\n", s);\n  return 0;\n}\n`,v=>`Sum = ${String(v).split('').reduce((a,b)=>a+ +b,0)}\n`],
+['Reverse a Number','Algorithm','Basic','O(log n)',rg(5120,5169),v=>`#include <stdio.h>\n\nint main(){\n  int n=${v}, r=0;\n  while(n>0){\n    r=r*10+n%10; // append last digit\n    n/=10;\n  }\n  printf("Reversed = %d\\n", r);\n  return 0;\n}\n`,v=>`Reversed = ${+String(v).split('').reverse().join('')}\n`],
+['Multiplication Table','Algorithm','Basic','O(1)',rg(2,41),v=>`#include <stdio.h>\n\nint main(){\n  int n=${v}, i;\n  for(i=1;i<=10;i++)\n    printf("%d x %d = %d\\n", n, i, n*i);\n  return 0;\n}\n`,v=>rg(1,10).map(i=>`${v} x ${i} = ${v*i}`).join('\n')+'\n'],
+['Sum of 1 to N','Algorithm','Basic','O(n)',rg(10,49),v=>`#include <stdio.h>\n\nint main(){\n  int n=${v}, i, s=0;\n  for(i=1;i<=n;i++) s+=i; // add each number\n  printf("Sum = %d\\n", s);\n  return 0;\n}\n`,v=>`Sum = ${v*(v+1)/2}\n`],
+['Decimal to Binary','Algorithm','Intermediate','O(log n)',rg(10,49),v=>`#include <stdio.h>\n\nint main(){\n  int n=${v}, b[32], i=0;\n  while(n>0){ b[i++]=n%2; n/=2; } // remainders\n  while(i>0) printf("%d", b[--i]); // print in reverse\n  printf("\\n");\n  return 0;\n}\n`,v=>v.toString(2)+'\n'],
+['GCD of Two Numbers','Algorithm','Intermediate','O(log n)',rg(10,42),v=>`#include <stdio.h>\n\nint gcd(int a,int b){ return b==0 ? a : gcd(b,a%b); } // Euclid\n\nint main(){\n  printf("GCD = %d\\n", gcd(${v}, 36));\n  return 0;\n}\n`,v=>`GCD = ${gcd(v,36)}\n`]
+];
+const PROGS=[];
+PAT.forEach(([t,d,f,body])=>{for(let n=3;n<=14;n++)PROGS.push({title:`${t} (n=${n})`,cat:'Pattern',diff:d,code:wrap(body.replace(/^/,'').replace(/\n  /g,'\n  '),'int i,j,n='+n).replace('int i,j,n='+n+';','int i,j,n='+n+';'),out:f(n)+'\n',tc:'O(n²)'})});
+MATH.forEach(([t,c,d,tc,vals,code,out])=>vals.forEach(v=>PROGS.push({title:`${t} (${v})`,cat:c,diff:d,code:code(v),out:out(v),tc})));
+PROGS.length=500;
+PROGS.forEach((p,i)=>{p.id='prog_'+String(i+1).padStart(3,'0');p.n=i+1});
+
+/* ---------- Quiz generator (500) ---------- */
+const CONC=[
+['Basics','Which header declares printf?',['<stdio.h>','<stdlib.h>','<string.h>','<math.h>'],0,'printf lives in stdio.h (standard input/output).'],
+['Basics','What is the size of int on most modern systems?',['2 bytes','4 bytes','8 bytes','1 byte'],1,'Most compilers use 4 bytes for int.'],
+['Pointers','What does &x give you?',['Value of x','Address of x','Size of x','Type of x'],1,'& is the address-of operator.'],
+['Pointers','What does *p do when p is a pointer?',['Takes the address','Reads the value p points to','Frees p','Declares p'],1,'* dereferences a pointer.'],
+['Arrays','Index of the first element of an array?',['1','0','-1','Depends'],1,'C arrays are zero-indexed.'],
+['Strings','Which character ends a C string?',['\\n','\\0','\\t','EOF'],1,'Strings end with the null character \\0.'],
+['Loops','Which loop always runs its body at least once?',['for','while','do-while','none'],2,'do-while checks its condition after the body.'],
+['Memory','Which function allocates memory on the heap?',['alloca','malloc','scanf','strcpy'],1,'malloc reserves heap memory; free releases it.'],
+['Basics','Which operator checks equality?',['=','==','=>','!='],1,'= assigns; == compares.'],
+['Functions','What does return 0 in main usually signal?',['Error','Success','Loop end','Nothing'],1,'A zero exit status means success.']
+];
+const QS=CONC.map(([t,q,o,c,e])=>({topic:t,diff:'Basic',q,o,c,e}));
+const OPS=[['%',(a,b)=>a%b,'remainder'],['/',(a,b)=>Math.trunc(a/b),'integer division drops the fraction'],['*',(a,b)=>a*b,'multiplication'],['&',(a,b)=>a&b,'bitwise AND'],['^',(a,b)=>a^b,'bitwise XOR'],['|',(a,b)=>a|b,'bitwise OR']];
+let seed=7;const rnd=()=>(seed=(seed*1103515245+12345)&0x7fffffff)/0x7fffffff;
+while(QS.length<500){
+  const [s,f,w]=OPS[QS.length%OPS.length];const a=5+Math.floor(rnd()*40),b=2+Math.floor(rnd()*9);
+  const ans=f(a,b);const set=new Set([ans]);let k=1;while(set.size<4){set.add(ans+(k%2?k:-k)*(1+Math.floor(k/2)));k++}
+  const arr=[...set].sort((x,y)=>((x*7+a)%11)-((y*7+a)%11));
+  QS.push({topic:'Operators',diff:s=='%'||s=='/'||s=='*'?'Basic':'Intermediate',q:`int a=${a}, b=${b};\nprintf("%d", a ${s} b);\nWhat is printed?`,o:arr.map(String),c:arr.indexOf(ans),e:`${a} ${s} ${b} = ${ans} (${w}).`});
+}
+
+/* ---------- Views ---------- */
+const app=$('#app');
+let shown=40,fq='',fc='All',fd='All',cur=null;
+const done=new Set(ls.get('done',[]));
+function nav(v){location.hash=v}
+function render(){
+  const v=(location.hash||'#home').slice(1);
+  document.querySelectorAll('.nv').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  ({home,library,quiz}[v]||home)();window.scrollTo(0,0);
+}
+function home(){
+  app.innerHTML=`<section class="hero"><div><h1>Master C Programming. Zero to Pro.</h1><p>Read a program, edit it, run it, and take it apart line by line. ${PROGS.length} programs and ${QS.length} quiz questions, each with the output you should expect.</p><div class="row"><button class="btn" onclick="nav('library')">Start learning</button><button class="btn o" onclick="document.getElementById('rm').scrollIntoView({behavior:'smooth'})">View roadmap</button></div></div>
+  <div class="win" aria-label="Code running"><div class="bar"><i></i><i></i><i></i></div><pre><code id="hc"></code></pre></div></section>
+  <div class="stats"><div class="st"><b>${PROGS.length}</b><span>Programs with output</span></div><div class="st"><b>${QS.length}</b><span>Quiz questions</span></div><div class="st"><b>${done.size}</b><span>Completed by you</span></div></div>
+  <h2 id="rm">Roadmap</h2><div class="road"><div><b>Basic</b><span>Loops, patterns, digits, tables</span></div><div><b>Intermediate</b><span>Primes, recursion, hollow shapes</span></div><div><b>Advanced</b><span>Diamonds, number pyramids, bit work</span></div></div>
+  <h2>Daily challenge</h2><button class="card" id="dc" style="width:100%"></button>`;
+  const d=PROGS[new Date().getDate()*13%PROGS.length];
+  $('#dc').innerHTML=`<h3>${d.title}</h3><span class="meta">Predict the output, then open it to check.</span>`;$('#dc').onclick=()=>openP(d);
+  const src='for(i=1;i<=4;i++){\n  for(j=1;j<=i;j++)\n    printf("*");\n  printf("\\n");\n}\n';const out=PAT[0][2](4).split('\n');
+  const el=$('#hc');el.innerHTML=esc(src)+'\n<span class="o">$ ./a.out</span>';let k=0;
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)el.innerHTML+='\n<span class="o">'+out.join('\n')+'</span>';
+  else{const t=setInterval(()=>{if(!$('#hc')||k>=out.length)return clearInterval(t);el.innerHTML+='\n<span class="o">'+out[k++]+'</span>'},500)}
+}
+function filtered(){return PROGS.filter(p=>(fc=='All'||p.cat==fc)&&(fd=='All'||p.diff==fd)&&(!fq||(p.title+' '+p.cat+' #'+p.n).toLowerCase().includes(fq)))}
+function library(){
+  const cats=['All',...new Set(PROGS.map(p=>p.cat))],ds=['All','Basic','Intermediate','Advanced'];
+  app.innerHTML=`<h2 style="margin-top:8px">Program library</h2><div class="tools"><input type="search" id="q" placeholder="Search programs" value="${fq}" aria-label="Search programs"><select id="fc">${cats.map(c=>`<option ${c==fc?'selected':''}>${c}${c=='All'?'':' ('+PROGS.filter(p=>p.cat==c).length+')'}</option>`).join('')}</select><select id="fd">${ds.map(c=>`<option ${c==fd?'selected':''}>${c}</option>`).join('')}</select></div><div class="note" id="cnt"></div><div class="grid" id="g"></div><div class="row" style="justify-content:center;margin-top:16px"><button class="btn o" id="more">Show more</button></div>`;
+  $('#q').oninput=e=>{fq=e.target.value.toLowerCase();shown=40;list()};
+  $('#fc').onchange=e=>{fc=e.target.value.split(' (')[0];shown=40;list()};
+  $('#fd').onchange=e=>{fd=e.target.value;shown=40;list()};
+  $('#more').onclick=()=>{shown+=40;list()};list();
+}
+function list(){
+  const f=filtered();$('#cnt').textContent=`${f.length} programs`;
+  $('#g').innerHTML=f.slice(0,shown).map(p=>`<button class="card" data-i="${p.n-1}"><div class="meta"><span class="mono">#${p.n}</span><span class="tag ${p.diff}">${p.diff}</span><span>${p.cat}</span>${done.has(p.id)?'<span style="margin-left:auto;color:var(--g)">✓ done</span>':''}</div><h3>${p.title}</h3><pre>${esc(p.out.split('\n').slice(0,3).join('\n'))}</pre></button>`).join('')||'<p class="note">No programs match. Clear the search or pick another category.</p>';
+  $('#more').style.display=f.length>shown?'':'none';
+  document.querySelectorAll('.card[data-i]').forEach(c=>c.onclick=()=>openP(PROGS[+c.dataset.i]));
+}
+function openP(p){
+  cur=p;const note=ls.get('note_'+p.id,'');
+  $('#modal').innerHTML=`<div class="ov" id="ov"><div class="md" role="dialog" aria-label="${p.title}"><div class="row" style="justify-content:space-between;align-items:center"><h3>#${p.n} ${p.title}</h3><button class="btn o" id="x">Close</button></div><div class="meta"><span class="tag ${p.diff}">${p.diff}</span><span>${p.cat}</span><span class="mono">${p.tc}</span></div>
+  <div class="two"><div><textarea id="code" spellcheck="false" aria-label="C code">${esc(p.code)}</textarea><input id="stdin" placeholder="Input for scanf (stdin)" style="width:100%;margin-top:8px"></div>
+  <div><pre id="out">Press Run to compile and execute.</pre><p class="note">Expected output:</p><pre class="note mono" style="margin:0;white-space:pre-wrap">${esc(p.out)}</pre></div></div>
+  <div class="row"><button class="btn" id="run">Run code</button><button class="btn o" id="cp">Copy</button><button class="btn o" id="dl">Download .c</button><button class="btn o" id="sh">Share link</button><button class="btn o" id="dn">${done.has(p.id)?'Completed ✓':'Mark as completed'}</button></div>
+  <textarea id="nt" style="min-height:70px;font-family:Inter" placeholder="Your notes (saved on this device)">${esc(note)}</textarea></div></div>`;
+  $('#x').onclick=()=>$('#modal').innerHTML='';
+  $('#ov').onclick=e=>{if(e.target.id=='ov')$('#modal').innerHTML=''};
+  $('#run').onclick=run;
+  $('#cp').onclick=()=>{navigator.clipboard.writeText($('#code').value).then(()=>toast('Code copied'),()=>toast('Copy failed'))};
+  $('#dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([$('#code').value]));a.download=p.id+'.c';a.click()};
+  $('#sh').onclick=()=>{const u=location.href.split('#')[0]+'#library';navigator.clipboard.writeText(u+' ('+p.id+')').then(()=>toast('Link copied'),()=>toast('Copy failed'))};
+  $('#dn').onclick=()=>{done.add(p.id);ls.set('done',[...done]);$('#dn').textContent='Completed ✓';toast('+10 XP')};
+  $('#nt').oninput=e=>ls.set('note_'+p.id,e.target.value);
+}
+async function run(){
+  const o=$('#out');o.textContent='Running…';
+  try{
+    const r=await fetch('https://emkc.org/api/v2/piston/execute',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({language:'c',version:'*',files:[{content:$('#code').value}],stdin:$('#stdin').value})});
+    const j=await r.json();o.textContent=(j.compile&&j.compile.stderr)||j.run.output||'(no output)';
+  }catch(e){o.textContent='Live run is blocked in this hosted preview. Expected output:\n\n'+cur.out}
+}
+/* Quiz */
+let qs=[],qi=0,sc=0,qt='All';
+function quiz(){
+  const topics=['All',...new Set(QS.map(q=>q.topic))];
+  app.innerHTML=`<h2 style="margin-top:8px">Quiz</h2><div class="tools"><select id="qt" aria-label="Topic">${topics.map(t=>`<option ${t==qt?'selected':''}>${t}</option>`).join('')}</select><button class="btn" id="go">Start 10 questions</button></div><div id="qa"></div>`;
+  $('#qt').onchange=e=>qt=e.target.value;$('#go').onclick=()=>{const pool=QS.filter(q=>qt=='All'||q.topic==qt);qs=[...pool].sort(()=>Math.random()-.5).slice(0,10);qi=0;sc=0;ask()};
+  $('#qa').innerHTML='<p class="note">Pick a topic and start. You get instant feedback and XP for each correct answer.</p>';
+}
+function ask(){
+  if(qi>=qs.length){const pc=Math.round(sc/qs.length*100);$('#qa').innerHTML=`<h3>Score: ${sc}/${qs.length} (${pc}% accuracy)</h3><div class="pb" style="margin:12px 0"><i style="width:${pc}%"></i></div><p class="note">You earned ${sc*5} XP.</p>`;ls.set('xp',ls.get('xp',0)+sc*5);return}
+  const q=qs[qi];
+  $('#qa').innerHTML=`<div class="pb"><i style="width:${qi/qs.length*100}%"></i></div><p class="meta" style="margin-top:10px">Question ${qi+1} of ${qs.length} · ${q.topic} · ${q.diff}</p><pre class="mono" style="white-space:pre-wrap;font-size:14px">${esc(q.q)}</pre>${q.o.map((o,i)=>`<button class="opt mono" data-i="${i}">${esc(o)}</button>`).join('')}<div id="fb"></div>`;
+  document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;document.querySelectorAll('.opt').forEach((x,k)=>{x.disabled=true;if(k==q.c)x.classList.add('ok')});if(i==q.c)sc++;else b.classList.add('no');
+    $('#fb').innerHTML=`<p>${i==q.c?'Correct. +5 XP. ':'Not quite. '}${esc(q.e)}</p><button class="btn" id="nx">${qi+1<qs.length?'Next question':'See score'}</button>`;$('#nx').onclick=()=>{qi++;ask()}});
+}
+/* init */
+document.querySelectorAll('.nv').forEach(b=>b.onclick=()=>nav(b.dataset.v));
+const root=document.documentElement;try{const t=localStorage.getItem('cf_theme');if(t)root.dataset.theme=t}catch(e){}
+$('#th').onclick=()=>{const t=root.dataset.theme=='light'?'dark':'light';root.dataset.theme=t;try{localStorage.setItem('cf_theme',t)}catch(e){}};
+addEventListener('hashchange',render);addEventListener('keydown',e=>{if(e.key=='Escape')$('#modal').innerHTML=''});
+render();
+</script>
+</body>
+</html>
